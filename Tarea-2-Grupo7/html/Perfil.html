@@ -1,21 +1,20 @@
+<!-- Verificamos que la sesión este iniciada y seleccionamos la barra de navegación segun el tipo de usuario -->
 <?php 
 include '../validar_sesión.php';
 include '../NavbarSelect.php';
-include '../Es_Artista.php';
 
-if($Es_Artista){
+// Si intenta entrar a perfil a pesar de ser artista lo redirige a index
+if($_SESSION["EsArtista"]){
     header("Location: http://localhost/index.html");
     exit("Credenciales Incorrectas");
 }
 $email = $_SESSION["email"];
 
-$sql_statement = "SELECT id, nombre, apellido, email, suscripcion_activa FROM usuarios WHERE email = $1;";
-$result = pg_query_params($dbconn, $sql_statement, array($email));
-$row= pg_fetch_row($result);
-$id =$row[0];
-$nombre =$row[1] . " " . $row[2];
-$email = $row[3];
-if ( $row[4]== 'f' ){
+
+$id =$_SESSION["id"];
+$nombre =$_SESSION["nombre"] . " " . $_SESSION["apellido"];
+$email = $_SESSION["email"];
+if ( $_SESSION["suscripcion"]== 'f' ){
     $sub = "No Activa";
 
 }else{
@@ -25,10 +24,7 @@ if ( $row[4]== 'f' ){
 
 
 
-if (!$result) {
-    echo("No se pudo verificar la data");
-    exit();
-}
+
 ?>
 <body>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">

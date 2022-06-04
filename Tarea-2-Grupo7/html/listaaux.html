@@ -2,9 +2,9 @@
 <?php include $_SERVER['DOCUMENT_ROOT'].'/db_config.php'; 
 include '../validar_sesión.php';
 include '../NavbarSelect.php';
-include '../Es_Artista.php';
 
-if($Es_Artista){
+
+if($_SESSION["EsArtista"]){
     header("Location: http://localhost/index.html");
     exit("Credenciales Incorrectas");
 }

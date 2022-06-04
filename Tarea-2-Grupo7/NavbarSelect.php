@@ -5,10 +5,7 @@ session_start();
 
 if (isset($_SESSION["email"])){
     
-    include  'Es_artista.php';
-    
-    
-    if($Es_Artista == 1){
+    if($_SESSION["EsArtista"] == 1){
         
         include 'include/navbar_Logeado_Artista.html';
     } else {
