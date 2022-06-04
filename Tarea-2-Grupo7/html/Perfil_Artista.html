@@ -1,0 +1,55 @@
+<?php 
+include '../validar_sesión.php';
+include '../NavbarSelect.php';
+include '../Es_Artista.php';
+
+if(!$Es_Artista){
+    header("Location: http://localhost/index.html");
+    exit("Credenciales Incorrectas");
+}
+
+$email = $_SESSION["email"];
+
+$sql_statement = "SELECT id, nombre, apellido, email, nombre_artistico, verificado FROM artistas WHERE email = $1;";
+$result = pg_query_params($dbconn, $sql_statement, array($email));
+$row= pg_fetch_row($result);
+$id =$row[0];
+$nombre =$row[1] . " " . $row[2] . " (" . $row[4] . ")";
+$email = $row[3];
+
+if ( $row[5]== 'f' ){
+    $sub = "No Verificado";
+
+}else{
+    $sub = "Verificado";
+
+}
+
+
+
+if (!$result) {
+    echo("No se pudo verificar la data");
+    exit();
+}
+?>
+<body>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+	<div class="row">
+		<div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+    	 <div class="well profile">
+            <div class="col-sm-12">
+                <div class="col-xs-12 col-sm-8">
+                    <h2><?php echo($nombre); ?></h2>
+                    <p><strong>id: </strong><?php echo($id); ?> </p>
+                    <p><strong>email: </strong><?php echo($email); ?></p>
+                    <p><strong>Verificación: </strong><?php echo($sub); ?></p>
+                </div>             
+                
+            </div>            
+            
+    	 </div>                 
+		</div>
+	</div>
+</div>
+</body>
